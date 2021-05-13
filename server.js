@@ -2,6 +2,7 @@ const express = require("express");
 
 const cors = require("cors");
 const mysql = require("mysql2");
+const bodyParser = require("body-parser");
 
 const app = express();
 app.use(
@@ -11,6 +12,8 @@ app.use(
   })
 );
 app.use(express.static("static"));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const conn = mysql.createConnection({
   user: "root",
@@ -29,19 +32,6 @@ conn.connect((err) => {
     console.log("connected to db");
     // Q4 complete the route to find all flights to the user's chosen
     // destination on the user's chosen date
-    // app.get("/search/:flightDestination/:flightDate", (req, res) => {
-    //   // res.send(req.params.flightDestination, req.params.flightDate);
-    //   conn.query(
-    //     'SELECT * FROM euroair WHERE endcity = ? AND date = ?',
-    //     [req.params.flightDestination, req.params.flightDate],
-    //     (err, results) => {
-    //       if (err) throw err;
-    //       console.log(req.params.flightDestination, req.params.flightDate);
-    //       // Q5 complete to return the flight details as JSON
-    //       res.json(results.toString());
-    //     }
-    //   );
-    // });
     app.get("/search/:flightDestination/:flightDate", (req, res) => {
       conn.query(
         "SELECT * FROM eaflights WHERE endcity = ? AND date = ?",
@@ -56,45 +46,54 @@ conn.connect((err) => {
         }
       );
     });
-    // app.get('/search/:flightDestination/:flightDate', (req, res) => {
-    //   console.log(req.params.flightDestination, req.params.flightDate);
-    //   res.send(req.params.flightDestination, req.params.flightDate)
-    //     // conn.query("SELECT * FROM `eaflights` WHERE endcity = ? AND date = ?"
-    //     //     [ req.params.flightDestination, req.params.flightDate ],
-    //     //     (err, rows) => {
-    //     //         res.send(rows)
-    //     //         // Q5 complete to return the flight details as JSON
-    //     //     });
-    // });
 
     // Q7 complete the route to book the flight for 1 passenger and a hard-coded
     // username by inserting a record in the bookings table
-    // app.post('/flightbook/:flightId', (req, res) => {
-    //     conn.query("INSERT INTO ?????",
-    //         [ ????? ],
-    //         (err, results, fields) => {
-    //             if(err) {
-    //                 res.status(500).json({'error': 'Internal error'});
-    //             } else {
-    //                 res.json({'success': 1});
-    //             }
-    //         });
-    // });
+    app.post("/flightbook/:flightId", (req, res) => {
+      conn.query(
+        "INSERT INTO `bookings` (`username`,	`flightID`,	`npass`) VALUES (? ,?,?)",
+        ["Fred", req.params.flightId, 1],
+        (err, results, fields) => {
+          if (err) {
+            // res.status(500).json({'error': 'Internal error'});
+            console.log(err);
+          } else {
+            res.json({ success: 1 });
+          }
+        }
+      );
+    });
 
-    // app.post('/flightadd', (req, res) => {
-    //     // Q11 send back an error if any of the details are blank (you need to add this code...)
+    app.post("/flightadd", (req, res) => {
+      // Q11 send back an error if any of the details are blank (you need to add this code...)
+      console.log(req.params);
+      var fNumber = req.body.number;
+      var destCity = req.body.dest;
+      var theDate2 = req.body.date;
+      var departTime = req.body.deptime;
+      var arriveTime = req.body.arrtime;
+      var price = req.body.thePrice;
+      var numSeats = 20;
+      if(fNumber || destCity || theDate2 || departTime||arriveTime||price||numSeats == null || undefined) {
+        res.status(400)
+        return;
+      }
 
-    //     // Q10 complete the 'add flight' route as described in the paper
-    //     conn.query("INSERT INTO ?????",
-    //         [ ????? ],
-    //         (err, results, fields) => {
-    //             if(err) {
-    //                 res.status(500).json({'error': 'Internal error'});
-    //             } else {
-    //                 res.json({'success': 1});
-    //             }
-    //         });
-    // });
+      // Q10 complete the 'add flight' route as described in the paper
+      conn.query(
+        "INSERT  into `eaflights` (`fNumber`,`endcity`,`date`,`depart`,`arrive`,`price`,`nseats`) VALUES (?,?,?,?,?,?,?)",
+        [fNumber, destCity, theDate2, departTime, arriveTime, price, numSeats],
+        (err, results, fields) => {
+          if (err) {
+            // res.status(500).json({ error: "Internal error" });
+            console.log(err);
+          } else {
+            // res.json({ success: 1 });
+            res.send(results)
+          }
+        }
+      );
+    });
 
     // // Q14 complete the login route on the server
     // app.post('/login', (req, res) => {

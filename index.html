@@ -22,23 +22,31 @@
     </p>
     <div id="searchResults"></div>
     <h2>Add a flight:</h2>
-    <p>
+    <form method="POST" action="http://127.0.0.1:3000/flightadd" >
       Flight number:<br />
-      <input id="fNumber" /><br />
+      <input id="fNumber" name="fNumber" /><br />
+
       Destination airport:<br />
-      <input id="destCity" /><br />
+      <input id="destCity" name="destCity" /><br />
+
       Date: <br />
-      <input id="theDate2" /><br />
+      <input id="theDate2" name="theDate2" /><br />
+
       Departure time:<br />
-      <input id="departTime" /><br />
+      <input id="departTime" name="departTime" /><br />
+
       Arrival time:<br />
-      <input id="arriveTime" /><br />
+      <input id="arriveTime" name="arriveTime" /><br />
+
       Price: <br />
-      <input id="price" /><br />
+      <input id="price" name="price" /><br />
+
       Number of seats: <br />
-      <input id="numSeats" /><br />
-      <input type="button" id="btnFlightAdd" value="Add!" />
-    </p>
+      <input id="numSeats" name="numSeats" /><br />
+
+      <input type="submit" id="btnFlightAdd"/>
+    </form>
+
     <div id="flightAddStatus"></div>
     <h2>Login:</h2>
     <p>

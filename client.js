@@ -4,6 +4,19 @@ document.getElementById("btnFlightSearch").addEventListener("click", () => {
   // Q2 complete these statements to read destination and date from form
   const city = document.getElementById("theDest");
   const date = document.getElementById("theDate");
+  const bookFilghtBtn = document.getElementById("bookFlight");
+  const fNumber = document.getElementById("fNumber");
+  const destCity = document.getElementById("destCity");
+  const theDate2 = document.getElementById("theDate2");
+  const departTime = document.getElementById("departTime");
+  const arriveTime = document.getElementById("arriveTime");
+  const price = document.getElementById("price");
+  const numSeats = document.getElementById("numSeats");
+  const btnFlightAdd = document.getElementById("btnFlightSearch");
+
+  btnFlightAdd.addEventListener("click", () => {
+    console.log("added");
+  });
 
   // Q3 complete the fetch API call to send the user's chosen city and
   // date to the 'flight search' route in server.js. You will need to look
@@ -31,51 +44,71 @@ document.getElementById("btnFlightSearch").addEventListener("click", () => {
         <span>Arrival</span> - ${data.arrive} <br/>
         <span>Price</span> - ${data.price} <br/>
         <span>Number of seats</span> - ${data.nseats} <br/>
+        //  Q8 update with a book button - see question paper
+        <form method="POST" action=http://localhost:3000/flightbook/${data.fnumber}><button id="bookFlight" onclick= "console.log('bookedd')";
+        >Book</button></form>
+        
         <hr/>
         `
       );
       searchResultsDiv.innerHTML = dataToOp;
     });
-  // .then((data) => console.log(data));
-  // .then (response => console.log(response.json()))
-
-  // Q8 update with a book button - see question paper
+  bookFilghtBtn.addEventListener("click", () => {
+    console.log("BOOKED");
+  });
 });
 
 // Q9 replace the ????? so that this event listener handles click events on
 // the 'add flight' button
 // Note the event listener has been setup to be an async function - this may help you
-// document.getElementById('?????').addEventListener('click', async() => {
+document.getElementById("btnFlightAdd").addEventListener("click", async () => {
+  // 	// Q9 complete these statements to read flight details from the form
+  const number = document.getElementById("fNumber").value
+  const dest = document.getElementById("destCity").value
+  const date = document.getElementById("theDate2").value
+  const deptime = document.getElementById("departTime").value
+  const arrtime = document.getElementById("arriveTime").value
+  const thePrice = document.getElementById("price").value
 
-// 	// Q9 complete these statements to read flight details from the form
-// 	const number = ?????;
-// 	const dest = ?????;
-// 	const date = ?????;
-// 	const deptime = ?????;
-// 	const arrtime = ?????;
-// 	const thePrice = ?????;
+  console.log(number , dest,date , deptime,arrtime,thePrice);
+  // 	// Q9 complete the fetch API call to send the data to the 'add flight'
+  // 	// route on the server as a POST request...
+  // async function postData(
+  //   url = "",
+  //   data = {  }
+  // ) {
+    // Default options are marked with *
+//     const response = await fetch(url, {
+//       method: "POST", // *GET, POST, PUT, 
+//       body: JSON.stringify(data), // body data type must match "Content-Type" header
+//       headers: {"Content-type": "application/json; charset=UTF-8"}
+// }).then(response => response.json()) 
+// .then(json => console.log(json));
+  
+//   postData('http://127.0.0.1:3000/flightadd', { number, dest, date, deptime, arrtime, thePrice })
+//   .then(data => {
+//     console.log(data); // JSON data parsed by `data.json()` call
+//   });
 
-// 	// Q9 complete the fetch API call to send the data to the 'add flight'
-// 	// route on the server as a POST request...
+  // 	// Q12 modify Q9 answer to handle non-200 status codes. Ensure that
+  // 	// user-friendly error messages are displayed to the user in the
+  // 	// 'flightAddStatus' <div>.
+  // });
 
-// 	// Q12 modify Q9 answer to handle non-200 status codes. Ensure that
-// 	// user-friendly error messages are displayed to the user in the
-// 	// 'flightAddStatus' <div>.
-// });
+  // // Q13 replace the ????? so that this event listener handles click events on
+  // // the login button
+  // // Note the event listener has been setup to be an async function - this may help you
+  // document.getElementById('?????').addEventListener('click', async() => {
 
-// // Q13 replace the ????? so that this event listener handles click events on
-// // the login button
-// // Note the event listener has been setup to be an async function - this may help you
-// document.getElementById('?????').addEventListener('click', async() => {
+  // 	// Q13 complete these statements to read login details from the form
+  // 	const u = ?????;
+  // 	const p = ?????;
 
-// 	// Q13 complete these statements to read login details from the form
-// 	const u = ?????;
-// 	const p = ?????;
+  // 	// Q13 complete the fetch API call to send the data to the login
+  // 	// route on the server as a POST request...
 
-// 	// Q13 complete the fetch API call to send the data to the login
-// 	// route on the server as a POST request...
-
-// 	// Q14 modify Q13 answer so that if the user did not log in correctly,
-// 	// a user-friendly error message is displayed to the user in the
-// 	// 'loginStatus' <div>.
-// });
+  // 	// Q14 modify Q13 answer so that if the user did not log in correctly,
+  // 	// a user-friendly error message is displayed to the user in the
+  // 	// 'loginStatus' <div>.
+  // });
+});

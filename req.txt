@@ -1,0 +1,213 @@
+Solent University
+Assessment Brief
+Assessment Details
+
+Unit Title:	Web Application Development / Developing for the Internet
+Unit Code:	COM518 / SWD501
+Unit Leader:	Nick Whitelegg
+Level:	5
+Assessment Title:	TCA - EuroAir
+Assessment Number:	AE2 (AE1 if on SWD501)
+Assessment Type:	Time Constrained Assessment
+Restrictions on Time/Length :	24 hours, but expected completion time 2 hours
+Individual/Group:	Individual
+Assessment Weighting:	50%
+Issue Date:	12/5/21 16:00
+Hand In Date:	At or before 13/5/21 16:00
+Planned Feedback Date:	by Friday 11/6/21 16:00 (20 working days after hand-in date)
+Mode of Submission:	On-line 
+Mode of Marking:	On-line 
+Mode of Feedback:	On-line 
+Number of copies to be submitted:	1
+
+
+
+COM518 / SWD501 TCA 2021
+
+IMPORTANT
+
+This is a Node.js based TCA.
+
+If you are enrolled on SWD501 Developing for the Internet rather than COM518 Web Application Development, you have the option of doing a PHP-based TCA instead. This is also available on SOL. If you are resitting, you may well find the PHP-based TCA easier as it is based on what you originally studied. However, you have the option of doing this Node-based TCA if you prefer.
+
+Introduction
+
+You have 24 hours to complete this TCA, from 16:00 UK time on Wednesday May 12 to 16:00 UK time on Thursday May 13. However, it should only take you two hours to complete.
+
+EuroAir is an international organisation which runs flights from London to a range of destinations within continental Europe. They would like to implement a prototype for an online flight booking system. It is your task to develop the system according to the instructions below. 
+
+
+What reference material can I use?
+
+You can use the module’s lecture notes, your assignment work (either original or resit) and your class work (HitTastic!)
+
+You cannot use third-party websites, the mock TCA answers, or the answers to any previous TCA (mock or real). Use of any of these will be considered as cheating, and if there is sufficient evidence that you have used any of these prohibited sources, your work will be referred to an academic misconduct panel.
+
+Database tables
+
+Assume the following tables exist.
+
+rusers - records registered users
+
+Column	Type	Role
+ID	INT	a unique identifier for each record in the table (i.e. the primary key) – auto allocated
+uname	VARCHAR(255)	Username
+pword	VARCHAR(255)	Password
+admin	TINYINT	Admin status (0 for non-admins, 1 for admins)
+
+eaflights - records flights
+
+Column	Type	Role
+ID	INT	a unique identifier for each record in the table (i.e. the primary key) - auto 
+fnumber	INT	The flight’s number
+endcity	VARCHAR(255)	The destination airport e.g. Paris 
+date	VARCHAR(255)	Date in format DDMMYY
+depart	VARCHAR(255)	Departure Time in format HH:MM
+arrive	VARCHAR(255)	Arrival time in format HH:MM
+price	FLOAT	Price of this journey
+
+
+
+bookings - records flight bookings
+
+Column	Type	Role
+ID	INT	A unique ID for this booking (primary key, auto-allocated)
+username	VARCHAR(255)	Username of the user who made this booking
+flightID	INT	ID of the flight with this booking (ID, not flight number)
+npass	INT	number of passengers in the booking
+
+
+
+Pre-prepared scripts
+
+A ZIP file of pre-prepared, partly-complete scripts is available on SOL. Your task is to complete as many of the scripts as possible according to the instructions below.
+
+Script / HTML page	Role
+index.html	An HTML page containing various forms: a form to allow the users to search for flights; a form to add new flights; and a login form.
+
+client.js	A front-end JavaScript file, containing code which will communicate with the server via AJAX and interpret the response returned
+server.js	A Node and Express based server which interacts with the database
+
+
+Example data
+
+Here is some example data, to help you understand the database schema.
+
+rusers
+
+uname	pword	admin
+admin	admin123	1
+mark	mark123	0
+jess	jess123	0
+
+
+eaflights
+
+ID	fnumber	endcity	date	depart	arrive	price	nseats
+1	101	Paris	010621	09:00	11:00	50	200
+2	103	Paris	010621	13:00	15:00	40	200
+4	101	Paris	020621	09:00	11:00	40	200
+5	201	Amsterdam	010621	10:00	13:00	70	200
+
+
+
+SQL file available
+
+If you wish to test your code (though this is not compulsory – see below) an SQL file to setup the tables described above is provided on SOL.
+
+
+To import into PHPMyAdmin, copy and paste the SQL into the ‘SQL’ tab, or alternatively, select the ‘Import’ tab and import the SQL file you downloaded.
+
+
+Syntax errors
+
+Minor syntax errors (missing brackets, semicolons, quotes etc) will not be penalised but all other coding errors (wrong database table or column names, wrong form field names etc) will.
+
+
+
+
+Tasks
+
+Tasks 1-14 are also indicated as comments in the relevant files. Please complete in order, as they are arranged in approximate order of difficulty and some later tasks depend on earlier ones. 
+
+If you skip tasks, you will lose credit appropriate to the complexity of the task. 
+
+Please do NOT add unnecessary code which is irrelevant to the question. This could result in a reduction of your grade as it can be a sign of a lack of understanding. Do not just copy-and-paste the code from the assignment. You are unlikely to get high grades this way. Instead, fill in the pre-prepared code or write new code as appropriate.
+
+Also, do NOT use code from the mock. This is not allowed (as it is evidence of a lack of understanding) and if found to be present may result in your work being referred for academic misconduct.
+
+Note that testing the code is NOT NECESSARY – you just need to complete the code to the best of your ability. For this reason, minor syntax errors (missing brackets, missing semicolons, wrong type of quotes, etc) will be allowed. You can test your system if you like, but please note that as it is a TCA, no support will be given for setting up your system.
+
+
+1. In client.js, complete the indicated addEventListener() call so that it handles click events from the button on the “flight search” form on index.html.
+
+2. In client.js, complete the statements to read in the destination city and date from the form.
+
+3. In client.js, complete the fetch API call so that it sends the user’s chosen destination city and date to the “flight search” route in server.js. You will need to look at the server.js code to complete this successfully.
+
+4. In server.js, complete the “flight search” route so that it finds all flights on the user’s chosen date to the user's chosen destination.
+
+5. In server.js, complete the “flight search” route so that it sends back the flight data as JSON.
+
+If you get this far, you will achieve F3.
+
+6. Complete client.js so that it parses the JSON returned from the “flight search” route on the server, and outputs it in HTML to the ‘searchResults’ <div> in index.html. It must be formatted as shown in the following example:
+
+Flight number – 101
+Destination – Paris
+Date – 010621
+Departs – 09:00
+Arrives – 11.00
+Price - 50
+
+
+If you get this far, you will achieve F1.
+
+
+7. In server.js complete the “flight book” route so that it uses an SQL INSERT statement to the “flight book” route to add a record to the "bookings" table containing the ID of the flight. Set the number of passengers to 1, and the username to a hard-coded value, such as “fred”, for the moment.
+
+8. Update your answer to question 6 so that there is a “Book” button for each matching result. When the button is clicked, an appropriate HTTP request must be sent to the “flight book” route, to allow the selected flight to be booked.
+
+If you get this far, you will achieve D2.
+
+9. Complete the “add flight” functionality on the client.
+
+In client.js, you need to:
+
+- complete the indicated addEventListener() call so that it handles click events from the button on the “add flight” form in index.html.
+-  complete the JavaScript code to read in the details entered by the user in the “add flight” form on index.html;
+- complete the JavaScript code to send this data to the “add flight” route in server.js as an AJAX POST request.
+
+10. In server.js, complete the “add flight” route so that it reads the details sent to it from the AJAX code which you completed in question 9. Ensure that the server is set up to read POST data sent in the request body – you will need to make some alterations to enable this! 
+
+If you get this far, you will achieve C2.
+
+11. Change the “add flight” route so that it sends back an appropriate HTTP status code if any of the details are blank.
+
+12. Modify your answer to Question 9 in client.js to handle non-200 HTTP status codes returned from your question 11 answer. Ensure that the errors are displayed to the user in a user-friendly way in the ‘flightAddStatus’ <div>.
+
+If you get this far, you will achieve C1.
+
+13. Complete the login functionality on the client. In client.js, you need to:
+
+-  complete the indicated addEventListener() call so that it handles click events from the button on the login form in index.html.
+-  complete the JavaScript code to read in the details entered by the user in the login form on index.html;
+-  complete the JavaScript code to send the username and password to the login route in server.js as an AJAX POST request.
+
+No additional credit for this, as it is very similar to question 9.
+
+14. Complete the login route on the server, so that it reads the username and password from the client, checks them against the database, and sets the session appropriately. If the login details are incorrect, this must be communicated to the client appopriately, and the client must then display a user-friendly error message in the ‘loginStatus’ <div>. You will need to setup full session handling for this.
+
+15. Change the “add flight” and “flight book” routes so that the add-flight and book-flight functionality is accessible to logged-in users, and change the “flight book” route so that it uses the username of the currently logged-in user. Return an appropriate HTTP error code if the routes are accessed by a non-logged-in user. You should NOT block access to ALL POST routes using middleware as shown on the lecture notes. Instead, add logic directly inside the two routes to check if the user is logged in.
+
+If you get this far, you will achieve B2.
+
+16. Enhance your answer to questions 14 and 15, so that the login system takes into account whether a user is an administrator. Then, alter your “add flight” route so that the functionality is only available to administrators. (Administrators are users for which the ‘isadmin’ column in the rusers table is equal to 1). 
+
+If you get this far, you will achieve A4.
+
+17. Enhance your system so that a user can book more than one seat on a flight. When a user searches for flights, each search result must be accompanied by a form field allowing the user to enter the number of seats they require, as well as a booking button. When the user clicks the booking button, the flight ID (the ID, not the flight number) and number of seats must be sent to the server. Change your “flight book” route to read the number of seats sent to it, and also add error checking to the “flight book” route to ensure that there are enough seats available. In addition, add an SQL UPDATE statement to the “flight book” route to reduce the number of seats appropriately. Communicate the success, or otherwise, of the booking to the client by sending back an appropriate HTTP status code, and ensure that the client reads this HTTP status code and displays an appropriate user friendly message to the user.
+
+As completion of Question 17 results in a high A, some thought is required!
+
+Completion of questions 1-17 with no errors will receive A1. If you complete 1-16, and partly implement 17, you may receive A2 or A3 depending on the amount of work done,
