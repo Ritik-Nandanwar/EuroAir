@@ -12,8 +12,9 @@ app.use(
   })
 );
 app.use(express.static("static"));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
+app.use(bodyParser.raw());
 
 const conn = mysql.createConnection({
   user: "root",
@@ -66,7 +67,7 @@ conn.connect((err) => {
 
     app.post("/flightadd", (req, res) => {
       // Q11 send back an error if any of the details are blank (you need to add this code...)
-      console.log(req.params);
+      console.log(req.body);
       var fNumber = req.body.number;
       var destCity = req.body.dest;
       var theDate2 = req.body.date;
@@ -74,25 +75,40 @@ conn.connect((err) => {
       var arriveTime = req.body.arrtime;
       var price = req.body.thePrice;
       var numSeats = 20;
-      if(fNumber || destCity || theDate2 || departTime||arriveTime||price||numSeats == null || undefined) {
-        res.status(400)
-        return;
-      }
 
       // Q10 complete the 'add flight' route as described in the paper
-      conn.query(
-        "INSERT  into `eaflights` (`fNumber`,`endcity`,`date`,`depart`,`arrive`,`price`,`nseats`) VALUES (?,?,?,?,?,?,?)",
-        [fNumber, destCity, theDate2, departTime, arriveTime, price, numSeats],
-        (err, results, fields) => {
-          if (err) {
-            // res.status(500).json({ error: "Internal error" });
-            console.log(err);
-          } else {
-            // res.json({ success: 1 });
-            res.send(results)
+      if (
+        fNumber== "" ||
+        destCity == "" ||
+        theDate2 == "" ||
+        departTime == "" ||
+        arriveTime == "" ||
+        price == ""
+      ) {
+        res.status(400).json({ Msg: "Bad req." });
+      } else {
+        conn.query(
+          "INSERT  into `eaflights` (`fNumber`,`endcity`,`date`,`depart`,`arrive`,`price`,`nseats`) VALUES (?,?,?,?,?,?,?)",
+          [
+            fNumber,
+            destCity,
+            theDate2,
+            departTime,
+            arriveTime,
+            price,
+            numSeats,
+          ],
+          (err, results, fields) => {
+            if (err) {
+              // res.status(500).json({ error: "Internal error" });
+              console.log(err);
+            } else {
+              res.json({ success: 1 });
+              // res.send(results)
+            }
           }
-        }
-      );
+        );
+      }
     });
 
     // // Q14 complete the login route on the server

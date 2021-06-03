@@ -61,34 +61,56 @@ document.getElementById("btnFlightSearch").addEventListener("click", () => {
 // Q9 replace the ????? so that this event listener handles click events on
 // the 'add flight' button
 // Note the event listener has been setup to be an async function - this may help you
-document.getElementById("btnFlightAdd").addEventListener("click", async () => {
+document.getElementById("btnFlightAdd").addEventListener("click", async (e) => {
   // 	// Q9 complete these statements to read flight details from the form
-  const number = document.getElementById("fNumber").value
-  const dest = document.getElementById("destCity").value
-  const date = document.getElementById("theDate2").value
-  const deptime = document.getElementById("departTime").value
-  const arrtime = document.getElementById("arriveTime").value
-  const thePrice = document.getElementById("price").value
+  e.preventDefault();
+  const number = document.getElementById("fNumber")
+  const dest = document.getElementById("destCity");
+  const date = document.getElementById("theDate2");
+  const deptime = document.getElementById("departTime");
+  const arrtime = document.getElementById("arriveTime");
+  const thePrice = document.getElementById("price");
 
-  console.log(number , dest,date , deptime,arrtime,thePrice);
+  var formData = {
+    number : number.value,
+    dest: dest.value ,
+    date: date.value ,
+    deptime : deptime.value ,
+    arrtime: arrtime.value,
+    thePrice: thePrice.value ,
+  };
+  console.log(JSON.stringify(formData) );
   // 	// Q9 complete the fetch API call to send the data to the 'add flight'
   // 	// route on the server as a POST request...
   // async function postData(
   //   url = "",
   //   data = {  }
   // ) {
-    // Default options are marked with *
-//     const response = await fetch(url, {
-//       method: "POST", // *GET, POST, PUT, 
-//       body: JSON.stringify(data), // body data type must match "Content-Type" header
-//       headers: {"Content-type": "application/json; charset=UTF-8"}
-// }).then(response => response.json()) 
-// .then(json => console.log(json));
-  
-//   postData('http://127.0.0.1:3000/flightadd', { number, dest, date, deptime, arrtime, thePrice })
-//   .then(data => {
-//     console.log(data); // JSON data parsed by `data.json()` call
-//   });
+  // Default options are marked with *
+  //     const response = await fetch(url, {
+  //       method: "POST", // *GET, POST, PUT,
+  //       body: JSON.stringify(data), // body data type must match "Content-Type" header
+  //       headers: {"Content-type": "application/json; charset=UTF-8"}
+  // }).then(response => response.json())
+  // .then(json => console.log(json));
+
+  const options = {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  await fetch("http://127.0.0.1:3000/flightadd", options)
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+    });
+
+  //   postData('http://127.0.0.1:3000/flightadd', { number, dest, date, deptime, arrtime, thePrice })
+  //   .then(data => {
+  //     console.log(data); // JSON data parsed by `data.json()` call
+  //   });
 
   // 	// Q12 modify Q9 answer to handle non-200 status codes. Ensure that
   // 	// user-friendly error messages are displayed to the user in the
